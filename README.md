@@ -1,7 +1,12 @@
-nextjs-netlify
+nextjs-no-netlify
 ======================
 
-Free [Netlify](https://www.netlify.com/) quickstart recipe libary app using [Next.js](https://nextjs.org/), [Prisma](https://www.prisma.io/) and [Aiven](https://aiven.io). Recipe data is from [kaggle](https://www.kaggle.com/datasets/thedevastator/better-recipes-for-a-better-life).
+**This is a fork of the
+[nextjs-netlify](https://github.com/Aiven-Labs/nextjs-netlify) repository with
+the Netlify bits removed. It is intended for use in a workshop to show how to
+add Netlify use to a repository.**
+
+Free quickstart recipe libary app using [Next.js](https://nextjs.org/), [Prisma](https://www.prisma.io/) and [Aiven](https://aiven.io). Recipe data is from [kaggle](https://www.kaggle.com/datasets/thedevastator/better-recipes-for-a-better-life).
 
 About the app
 ========
@@ -18,12 +23,6 @@ Getting started
 The app requires a PostgreSQL database. Configuring Redis is optional, but highly recommended to demonstrate all features of the application and the benefits of having Redis as part of your application. Using `us-east-1` region is recommended to minimise latency, as this region will be closest to where the Netlify functions are deployed if using their free plan.
 
 Get free Aiven for PostgreSQL and Aiven for Redis from [Aiven](https://console.aiven.io/singup).
-
-## Fork and deploy to Netlify
-
-You can fork this branch and deploy the application immediately to Netlify by clicking the button below. Database migration and seed is done during the Netlify deployment process. Make sure you have your PostgreSQL database up and running when deploying to achieve a working environment on the first try.
-
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/Aiven-Labs/nextjs-netlify)
 
 ## Development setup
 
@@ -44,31 +43,9 @@ Congratulations you can now start developing. The page reloads automatically as 
 - Run prettier format: `npm run format`
 
 
-Netlify deployment
-============
-
-You can fork this branch and deploy the application immediately to Netlify by clicking the button below. Database migrations and seed is done during the Netlify deployment process. Make sure you have PostgreSQL database up and running when deploying to achieve a working environment on the first try.
-
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/Aiven-Labs/nextjs-netlify)
-
-## Setup automatic deployment manually
-
-1. Install packages: `npm ci`
-1. Login with the cli to obtain token: `npx netlify login`
-1. Start and follow the automated setup process: `npx netlify init`
-
-    Choose to create a new site, and then select the default options other prompts. You will be required to authorize Netlify with GitHub.
-
-1. Open site admin UI in Netlify: `npx netlify open --admin`
-1. Go to site configuration section and add environment variables for PostgreSQL and Redis. Check [.env.template](.env.template) for the keys.
-1. Go to deploys section and trigger the deployment by clicking `Trigger deploy` -button.
-1. Access the app from command line with `npx netlify open --site` or open the site from the Netlify admin UI.
-
-You can now push changes and your changes will be automatically deployed to your site.
-
 Licenses
 ============
-nextjs-netlify is licensed under the Apache license, version 2.0. Full license text is available in the [LICENSE](LICENSE) file.
+nextjs-no-netlify is licensed under the Apache license, version 2.0. Full license text is available in the [LICENSE](LICENSE) file.
 Please note that the project explicitly does not require a CLA (Contributor
 License Agreement) from its contributors.
 
@@ -78,4 +55,4 @@ Any use by Aiven is for referential purposes only and does not indicate any spon
 
 Contact
 ============
-Bug reports and patches are very welcome, please post them as GitHub issues and pull requests at https://github.com/Aiven-Labs/nextjs-netlify.
+Bug reports and patches are very welcome, please post them as GitHub issues and pull requests at https://github.com/Aiven-Labs/nextjs-no-netlify.
