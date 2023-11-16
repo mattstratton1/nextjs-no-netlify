@@ -5,6 +5,7 @@
 # Learn more from ready-to-use templates: https://www.gitpod.io/docs/introduction/getting-started/quickstart
 
 tasks:
-  - command: npm install -g netlify-cli
+  - name: netlify-cli
+    command: npm install -g netlify-cli
 
 
