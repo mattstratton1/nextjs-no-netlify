@@ -8,4 +8,4 @@ tasks:
   - name: netlify-cli
     command: npm install -g netlify-cli
   - name: install postgresql
-    command: sudo apt-get update && sudo apt-get install postgresql-client
+    command: sudo apt-get update && sudo apt-get install postgresql-client -qq
