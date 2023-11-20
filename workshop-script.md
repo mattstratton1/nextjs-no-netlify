@@ -1,0 +1,191 @@
+# Configure your app and data for Continuous Delivery with Ne
+
+> **Note** this is the script for the workshop that uses this repository.
+
+
+## Show the app running
+
+Start by showing the web site running, so the audience have some idea of what
+it is about.
+
+
+Use a pre-prepared fork of https://github.com/Aiven-Labs/nextjs-netlify (that is, a fork of the original repository).
+URL is: https://main--netlify-workshop-demo.netlify.app/
+
+
+Point out that this is *not* the version of the repository we’re going to be
+using in the workshop - it’s an entirely different one we prepared earlier. In
+the workshop we’ll start with a version of the web app that isn’t set up to
+work with netlify. But by the end of the workshop, we should be able to
+reproduce what we’re showing now.
+
+Show the app actually doing something (look at a recipe) and maybe also look
+in the database to show what’s there (for instance, using psql at the command
+line).
+
+Explain that it's using PostgreSQL as a database, and Redis as a cache to
+speed up (repeated) database access.
+
+Explain that the application comes with its own data - deploying it loads the
+data into PostgreSQL.
+
+## Getting set up
+
+Check people have forked the repository from  https://github.com/Aiven-Labs/nextjs-no-netlify - but we may show one way of doing this (fork and then clone locally)
+
+1. Fork on GitHub
+2. `git clone` locally
+
+> **Note** We’re using gitpod to work in - once we’ve forked the repository,
+> then we can use  `https://gitpod.io/#https://github.com/USERNAME/nextjs-no-netlify`.
+
+Check people have an Aiven login, and quickly show them how to get on.
+
+Lead them through creating the PostgreSQL and Redis services they’re going to need
+
+> We recommend using `aws-us-east-1` in the North America region to minimise latency, as this region will be closest to where the Netlify free plan deploys its functions. However, the Aiven free plans are currently available in the following regions and you can pick whichever you like:
+
+While those are running up, lead them through getting a Netlify account.
+
+1. Go to https://app.netlify.com/signup and do all the things
+2. Use GitHub to sign in, as it’s so convenient.
+3. Answer all the questions…
+4. Skip the end bit, and that should be done
+
+Check people have installed the netlify command line application
+
+1. `which netlify` to check (it was a prerequisite)
+2. Otherwise, refer back to the forum page
+
+   * `brew install netlify-cli` on a Mac
+   * `npm install netlify-cli -g` otherwise (needs Node.js to be installed)
+
+Now we’re going to look at the application we’re working with.
+
+* It’s a Javascript app using …
+
+  * Prisma as its ORM to talk to the databases
+  * Show the `package.json` file and explain the build command we’ll be using, `build-deploy`.
+  * Explain that this is a general npm target - it’s not “bound” to netlify - hence calling it `build-deploy`
+
+Login to netlify
+```
+  netlify login
+```
+
+This takes us to a webpage to authorize it doing things to GitHub
+
+Back at the command line, use `netlify status` to show that this has worked and you’re logged in as the right user
+
+Set up the repository to use netlify:
+
+```
+netlify init
+```
+
+And answer the questions:
+
+* `What would you like to do?` - Use arrow keys to select **Create & configure
+  a new site**
+  ```
+    ❯  Connect this directory to an existing Netlify site
+    +  Create & configure a new site
+  ```
+  Choose **Create & configure a new site**
+* `Team:`  - Use arrow keys to choose
+* `Site name` - Leave blank to get a random name or make one up
+
+* Then it asks for permission to access that repo on GitHub.
+
+   > **Note** If the presented is using gitpod, then they'll need to use a GitHub
+   > access token to do this. There's no need to explain the details. The
+   > audience will probably want to use the GitHub app.
+   >
+   > (It will show the token! So explain “not going to show you my token!” and show a different tab (kitten picture!) while pasting the token in, and then clear the terminal before going back, so the viewers don’t get to see.)
+
+* Build command, which is `npm run build-deploy` (using that `build-deploy` target we mentioned earlier)
+* Where to publish -  `.next` is OK
+* is it OK to create the TOML file? - yes, it is
+
+Show the content of the new netlify.toml file
+
+1. Run `git status`, see that `netlify.toml` file is untracked
+2. `git add netlify.toml`
+3. `git commit -m “Add netlify toml”`
+4. `git push`
+
+   ...which is the same as `git push origin main`. And yes, we’re pushing to main, that’s OK in this demo
+
+(note: `netlify open` to go to the netlify dashboard for the site)
+
+
+## Define how to reach the PostgreSQL database
+
+* Go to the Aiven Console, and to the PostgreSQL service page
+* Copy the SERVICE URI
+* Use `netlify env:set DATABASE_URL ‘THE-POSTGRES-SERVICE-URI’` - remember we’ll need to quote the URL at the command line
+* Go to the Aiven Console, and to the Redis service page
+* Copy the SERVICE URI
+* Use `netlify env:set REDIS_URI ‘THE-REDIS-SERVICE-URI’`
+
+`netlify env:list` will show them back
+
+Now use `netlify open` to go to the web application (or change to the tab you
+had open for netlify earlier on)
+
+Show the environment variables in the netlify web app as well
+
+Kick off a new build using the web app - this time it should succeed
+
+Explain that the first deployment will have failed because it will have happened before we set the environment variables! (it starts building as soon as we did `netlify init`). This is OK! This last (just now) deployment should succeed
+
+## Make a change to the app
+
+* `git checkout -b wonderful-branch` to make a new branch (other git commands
+  for creating a new branch and switching to it exist)
+* Edit `src/pages/index.tsx` and (for instance) out the word `wonderful` in between `for` and `PostgreSQL` at line 17
+* `git status` (it's always useful to check what's going on with `git status`)
+* git add src/pages/index.tsx
+* `git commit -m 'Make the app wonderful'`
+* `git push` -- correct this, it's wrong
+
+Follow the link that is printed out to go back to GitHub, and make a PR for that change.
+
+**In the new PR, remember to change the upstream URL so it doesn’t try to make a PR for the place we forked from**
+
+* Show how (eventually) the netlify deployment shows in the PR
+* Go to the Netlify web app and see it building there 
+* When it’s done, show it’s also done in the PR
+* And the change is in the newly deployed app - even though we haven’t merged the PR or anything
+
+
+While it’s doing all this, talk about why this is useful (automatic delivery, allowing the PR reviewer to check things against a live database without needing to spin the environment up themselves, the possibility of writing integration tests that are run in CI at this stage)
+
+Summarise:
+* We’ve now shown how to integrate our application (and its data) with Netlify
+* Which is one way of doing continuous delivery / deployment
+* And which is what we showed at the beginning
+
+
+Also to be mentioned:
+* Prisma is an ORM (object-relational mapping)
+
+  > Object-relational mapping (ORM) is a technique that creates a layer
+  > between the language and the database
+  
+## Production and testing
+
+We’re using the same database(s) for both production and testing - this is a
+Bad Idea. We’re doing that because we’re using the free PG and Redis, and a
+user is only allowed one of each - which isn’t a problem for real use cases,
+because the free tier is not suitable for production.
+
+Talk about using a separate build command for production and for testing,
+targetting different PostgreSQL and Redis instances.
+
+
+## Addenda
+
+SQL command from Francesco: `update recipes set is_liked=true where recipe_name ='Apricot Danish Coffee Cake';`
+
+
