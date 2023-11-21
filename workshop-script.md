@@ -31,21 +31,42 @@ data into PostgreSQL.
 
 ## Getting set up
 
-Check people have forked the repository from  https://github.com/Aiven-Labs/nextjs-no-netlify - but we may show one way of doing this (fork and then clone locally)
+> Help/Setup: https://go.aiven.io/help-netlify-workshop
+
+> The GitHub repository: https://github.com/Aiven-Labs/nextjs-no-netlify
+
+Check people have forked the repository from  https://github.com/Aiven-Labs/nextjs-no-netlify
 
 1. Fork on GitHub
 2. `git clone` locally
+
+> Either:
+> ```
+>     git clone git@github.com:YOURUSER/nextjs-no-netlify.git
+> ```
+> or:
+> ```
+>     git clone https://github.com/YOURUSER/nextjs-no-netlify.git
+> ```
+> and don't forget to
+> ```
+> cd nextjs-no-netlify
+> ```
 
 > **Note** We’re using gitpod to work in - once we’ve forked the repository,
 > then we can use  `https://gitpod.io/#https://github.com/USERNAME/nextjs-no-netlify`.
 
 Check people have an Aiven login, and quickly show them how to get on.
 
+> Aiven signup: https://go.aiven.io/signup-netlify-workshop
+
 Lead them through creating the PostgreSQL and Redis services they’re going to need
 
-> We recommend using `aws-us-east-1` in the North America region to minimise latency, as this region will be closest to where the Netlify free plan deploys its functions. However, the Aiven free plans are currently available in the following regions and you can pick whichever you like:
+> We recommend using `aws-us-east-1` in the North America region to minimise latency, as this region will be closest to where the Netlify free plan deploys its functions.
 
 While those are running up, lead them through getting a Netlify account.
+
+> Netlify signup: https://app.netlify.com/signup
 
 1. Go to https://app.netlify.com/signup and do all the things
 2. Use GitHub to sign in, as it’s so convenient.
@@ -62,23 +83,28 @@ Check people have installed the netlify command line application
 
 Now we’re going to look at the application we’re working with.
 
-* It’s a Javascript app using …
+* It’s a Javascript app
 
-  * Prisma as its ORM to talk to the databases
+  * It uses Prisma as its ORM to talk to the databases
   * Show the `package.json` file and explain the build command we’ll be using, `build-deploy`.
   * Explain that this is a general npm target - it’s not “bound” to netlify - hence calling it `build-deploy`
+  
+> **Object-relational mapping** (ORM) is a technique that creates a layer between the language and the database, helping programmers work with data
 
 Login to netlify
 ```
-  netlify login
+netlify login
 ```
 
 This takes us to a webpage to authorize it doing things to GitHub
 
-Back at the command line, use `netlify status` to show that this has worked and you’re logged in as the right user
+Back at the command line, use
+```
+netlify status
+```
+to show that this has worked and you’re logged in as the right user
 
 Set up the repository to use netlify:
-
 ```
 netlify init
 ```
@@ -97,7 +123,7 @@ And answer the questions:
 
 * Then it asks for permission to access that repo on GitHub.
 
-   > **Note** If the presented is using gitpod, then they'll need to use a GitHub
+   > **Note** If the presenter is using gitpod, then they'll need to use a GitHub
    > access token to do this. There's no need to explain the details. The
    > audience will probably want to use the GitHub app.
    >
@@ -109,21 +135,23 @@ And answer the questions:
 
 Show the content of the new netlify.toml file
 
-1. Run `git status`, see that `netlify.toml` file is untracked
+1. `git status` should show that `netlify.toml` is untracked
 2. `git add netlify.toml`
 3. `git commit -m “Add netlify toml”`
 4. `git push`
 
    ...which is the same as `git push origin main`. And yes, we’re pushing to main, that’s OK in this demo
 
-(note: `netlify open` to go to the netlify dashboard for the site)
+> **Note** can use `netlify open` to go to the netlify dashboard for the site
 
 
-## Define how to reach the PostgreSQL database
+## Define which PostgreSQL and Redis the app should use
 
 * Go to the Aiven Console, and to the PostgreSQL service page
 * Copy the SERVICE URI
-* Use `netlify env:set DATABASE_URL ‘THE-POSTGRES-SERVICE-URI’` - remember we’ll need to quote the URL at the command line
+* Use `netlify env:set DATABASE_URL ‘THE-POSTGRES-SERVICE-URI’` - remember
+  we’ll need to quote the URL at the command line
+  
 * Go to the Aiven Console, and to the Redis service page
 * Copy the SERVICE URI
 * Use `netlify env:set REDIS_URI ‘THE-REDIS-SERVICE-URI’`
@@ -141,19 +169,22 @@ Explain that the first deployment will have failed because it will have happened
 
 ## Make a change to the app
 
-* `git checkout -b wonderful-branch` to make a new branch (other git commands
+* `git checkout -b wonderful` to make a new branch (other git commands
   for creating a new branch and switching to it exist)
 * Edit `src/pages/index.tsx` and (for instance) out the word `wonderful` in between `for` and `PostgreSQL` at line 17
 * `git status` (it's always useful to check what's going on with `git status`)
-* git add src/pages/index.tsx
-* `git commit -m 'Make the app wonderful'`
-* `git push` -- correct this, it's wrong
+* `git add src/pages/index.tsx`
+* `git commit -m 'Make everything wonderful'`
+* `git push origin wonderful` to push our changes (and this new branch) to the
+  remote repository.
+* `git push --set-upstream origin main` to say we want our PR to be with
+  respect to (our) `main`, not the repository we forked from
 
 Follow the link that is printed out to go back to GitHub, and make a PR for that change.
 
 **In the new PR, remember to change the upstream URL so it doesn’t try to make a PR for the place we forked from**
 
-* Show how (eventually) the netlify deployment shows in the PR
+* `netlify open` (or go back to the Netlify tab) and show how (eventually) the netlify deployment shows in the PR
 * Go to the Netlify web app and see it building there 
 * When it’s done, show it’s also done in the PR
 * And the change is in the newly deployed app - even though we haven’t merged the PR or anything
@@ -188,4 +219,15 @@ targetting different PostgreSQL and Redis instances.
 
 SQL command from Francesco: `update recipes set is_liked=true where recipe_name ='Apricot Danish Coffee Cake';`
 
+### Other links
+
+Forums: https://go.aiven.io/forums-netlify-workshop
+
+Feedback: https://go.aiven.io/feedback-netlify-workshop 
+
+DevCenter: https://go.aiven.io/dc-netlify-workshop
+
+Newsletter: https://go.aiven.io/newsletter-netlify-workshop
+
+Upcoming Workshops: https://go.aiven.io/workshops-netlify-workshop
 
