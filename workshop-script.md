@@ -1,4 +1,4 @@
-# Configure your app and data for Continuous Delivery with Ne
+# Configure your app and data for Continuous Delivery with Netlify
 
 > **Note** this is the script for the workshop that uses this repository.
 
