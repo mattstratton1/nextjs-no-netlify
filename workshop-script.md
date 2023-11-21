@@ -36,22 +36,9 @@ data into PostgreSQL.
 > The GitHub repository: https://github.com/Aiven-Labs/nextjs-no-netlify
 
 Check people have forked the repository from  https://github.com/Aiven-Labs/nextjs-no-netlify
+(see the [workshop help page](https://go.aiven.io/help-netlify-workshop) for
+some guidance on this.)
 
-1. Fork on GitHub
-2. `git clone` locally
-
-> Either:
-> ```
->     git clone git@github.com:YOURUSER/nextjs-no-netlify.git
-> ```
-> or:
-> ```
->     git clone https://github.com/YOURUSER/nextjs-no-netlify.git
-> ```
-> and don't forget to
-> ```
-> cd nextjs-no-netlify
-> ```
 
 > **Note** We’re using gitpod to work in - once we’ve forked the repository,
 > then we can use  `https://gitpod.io/#https://github.com/USERNAME/nextjs-no-netlify`.
