@@ -211,7 +211,17 @@ Bad Idea. We’re doing that because we’re using the free PG and Redis, and a
 user is only allowed one of each - which isn’t a problem for real use cases,
 because the free tier is not suitable for production.
 
-Talk about using a separate build command for production and for testing,
+* Switch over to the prod url and show wait a minute, the data is changing when I change it in the test url? Whoops this isn’t good
+* Explain that you probably want to use a different data services set up in pre-prod vs prod
+* Explain that this part is just for demo as we don’t have time to set this all up for everyone
+* Show that there is a new prod postgres and redis already created (presenter did this in the background earlier)
+* Show that we need to update the env variables to have a different URL for the services for prod than for everything else
+* Call out “oh wait, the build command seeds the database! We don’t want to do that every time in prod!”
+* Then say “well wait, lets see what that really does…” look at line 38 in prisma/seed.ts and see that it only does that for a blank DB
+* After changing the env variables to add for prod, trigger a deploy on prod and then show that the two different places (prod vs the pr one) have different data.
+
+
+Talk about using a separate build configuration for production and for testing,
 targetting different PostgreSQL and Redis instances.
 
 
