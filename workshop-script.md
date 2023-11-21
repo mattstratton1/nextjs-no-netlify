@@ -163,7 +163,7 @@ succeed
 <!--
   Presenter can take the time to create the services that are needed for the
   "and this is how we handle production" bit at the end -->
--->
+->
 
 Open the deployed app (from the netlify page) and show it works.
 
