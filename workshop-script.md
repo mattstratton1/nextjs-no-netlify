@@ -10,7 +10,7 @@ it is about.
 
 
 Use a pre-prepared fork of https://github.com/Aiven-Labs/nextjs-netlify (that is, a fork of the original repository).
-URL is: https://main--netlify-workshop-demo.netlify.app/
+URL is: https://netlify-workshop-demo.netlify.app/
 
 
 Point out that this is *not* the version of the repository we’re going to be
@@ -58,11 +58,11 @@ While those are running up, lead them through getting a Netlify account.
 1. Go to https://app.netlify.com/signup and do all the things
 2. Use GitHub to sign in, as it’s so convenient.
 3. Answer all the questions…
-4. Skip the end bit, and that should be done
+4. Skip the end bit (choosing GitHub or whatever - we'll set that up later), and that should be done
 
 Check people have installed the netlify command line application
 
-1. `which netlify` to check (it was a prerequisite)
+1. `netlify --version` to check it's there and working
 2. Otherwise, refer back to the forum page
 
    * `brew install netlify-cli` on a Mac
@@ -114,7 +114,8 @@ And answer the questions:
    > access token to do this. There's no need to explain the details. The
    > audience will probably want to use the GitHub app.
    >
-   > (It will show the token! So explain “not going to show you my token!” and show a different tab (kitten picture!) while pasting the token in, and then clear the terminal before going back, so the viewers don’t get to see.)
+   > (It will show the token! So explain “not going to show you my token!” and
+   > show a different tab (cute kitten (or dog) picture!) while pasting the token in, and then clear the terminal before going back, so the viewers don’t get to see.)
 
 * Build command, which is `npm run build-deploy` (using that `build-deploy` target we mentioned earlier)
 * Where to publish -  `.next` is OK
@@ -138,7 +139,7 @@ Show the content of the new netlify.toml file
 * Copy the SERVICE URI
 * Use `netlify env:set DATABASE_URL ‘THE-POSTGRES-SERVICE-URI’` - remember
   we’ll need to quote the URL at the command line
-  
+
 * Go to the Aiven Console, and to the Redis service page
 * Copy the SERVICE URI
 * Use `netlify env:set REDIS_URI ‘THE-REDIS-SERVICE-URI’`
@@ -152,24 +153,37 @@ Show the environment variables in the netlify web app as well
 
 Kick off a new build using the web app - this time it should succeed
 
-Explain that the first deployment will have failed because it will have happened before we set the environment variables! (it starts building as soon as we did `netlify init`). This is OK! This last (just now) deployment should succeed
+> **Trigger deploy** > **Deploy site**
+
+Explain that the first deployment will have failed because it will have
+happened before we set the environment variables! (it starts building as soon
+as we did `netlify init`). This is OK! This last (just now) deployment should
+succeed
+
+<!--
+  Presenter can take the time to create the services that are needed for the
+  "and this is how we handle production" bit at the end -->
+-->
+
+Open the deployed app (from the netlify page) and show it works.
 
 ## Make a change to the app
 
 * `git checkout -b wonderful` to make a new branch (other git commands
   for creating a new branch and switching to it exist)
-* Edit `src/pages/index.tsx` and (for instance) out the word `wonderful` in between `for` and `PostgreSQL` at line 17
+* Edit `src/components/Navbar/Navbar.tsx` at line 22, put "Wonderful" just in
+  front of "Recipes" (leave the indentation the same)
 * `git status` (it's always useful to check what's going on with `git status`)
 * `git add src/pages/index.tsx`
 * `git commit -m 'Make everything wonderful'`
 * `git push origin wonderful` to push our changes (and this new branch) to the
   remote repository.
-* `git push --set-upstream origin main` to say we want our PR to be with
-  respect to (our) `main`, not the repository we forked from
 
 Follow the link that is printed out to go back to GitHub, and make a PR for that change.
 
-**In the new PR, remember to change the upstream URL so it doesn’t try to make a PR for the place we forked from**
+**In the new PR, remember to change the upstream URL so it doesn’t try to make
+a PR for the place we forked from - we want it to merge back to `main` from
+our forked repository**
 
 * `netlify open` (or go back to the Netlify tab) and show how (eventually) the netlify deployment shows in the PR
 * Go to the Netlify web app and see it building there 
@@ -177,19 +191,11 @@ Follow the link that is printed out to go back to GitHub, and make a PR for that
 * And the change is in the newly deployed app - even though we haven’t merged the PR or anything
 
 
-While it’s doing all this, talk about why this is useful (automatic delivery, allowing the PR reviewer to check things against a live database without needing to spin the environment up themselves, the possibility of writing integration tests that are run in CI at this stage)
+While it’s doing all this, talk about why this is useful (automatic delivery, allowing the PR reviewer to check things against a live database without needing to spin the environment up themselves, the possibility of writing integration tests that are run in CI at this stage
 
-Summarise:
-* We’ve now shown how to integrate our application (and its data) with Netlify
-* Which is one way of doing continuous delivery / deployment
-* And which is what we showed at the beginning
-
-
-Also to be mentioned:
-* Prisma is an ORM (object-relational mapping)
-
-  > Object-relational mapping (ORM) is a technique that creates a layer
-  > between the language and the database
+When it's deployed the PR change, show that the testing app and the production
+app are *talking to the same database* - changes in one reflect in the other.
+This is Not a Good Thing.
   
 ## Production and testing
 
@@ -210,6 +216,23 @@ because the free tier is not suitable for production.
 
 Talk about using a separate build configuration for production and for testing,
 targetting different PostgreSQL and Redis instances.
+
+## What's Prisma?
+
+We may not address this in the workshop, unless asked, but
+[Prisma](https://www.prisma.io/) is an ORM (object-relational mapping) for Node.js and TypeScript
+
+An ORM, according to wikipedia:
+  > Object-relational mapping (ORM) is a technique that creates a layer
+  > between the language and the database
+  
+Prisma says it provides:
+>  an intuitive data model, automated migrations, type-safety & auto-completion.
+
+## Summary
+* We’ve now shown how to integrate our application (and its data) with Netlify
+* Which is one way of doing continuous delivery / deployment
+* ...
 
 
 ## Addenda
