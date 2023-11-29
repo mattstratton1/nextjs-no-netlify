@@ -19,7 +19,7 @@ export const Navbar: React.FC = () => {
           Home
         </NavLink>
         <NavLink href="/recipes" active={pathname === '/recipes'}>
-          Recipes
+          Wonderful Recipes
         </NavLink>
       </Box>
       <Box marginLeft="auto" className={styles.netlifyDeployButton}>
